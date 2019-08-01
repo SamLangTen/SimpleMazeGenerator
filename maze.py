@@ -35,28 +35,28 @@ def open_door(map, rooms, door_ratio):
     for room in rooms:
         # check each walls
         isHasOneDoor = False
-        # left
+        # top
         for y in range(room[0][1], room[0][1]+room[1]):
             x = room[0][0]-1
             if 0 <= y and y <= height-1 and 0 <= x and x <= width-1 and x-1 >= 0 and map[x-1][y] == 2:
                 if random.random() > (1-door_ratio) or not isHasOneDoor:
                     map[x][y] = 2
                     isHasOneDoor = True
-        # right
+        # down
         for y in range(room[0][1], room[0][1]+room[1]):
             x = room[0][0]+room[1]+1
             if 0 <= y and y <= height-1 and 0 <= x and x <= width-1 and x+1 <= width-1 and map[x+1][y] == 2:
                 if random.random() > (1-door_ratio) or not isHasOneDoor:
                     map[x][y] = 2
                     isHasOneDoor = True
-        # top
+        # left
         for x in range(room[0][0], room[0][0]+room[1]):
             y = room[0][0]-1
             if 0 <= x and x <= width-1 and 0 <= y and y <= height-1 and y-1 >= 0 and map[x][y-1] == 2:
                 if random.random() > (1-door_ratio) or not isHasOneDoor:
                     map[x][y] = 2
                     isHasOneDoor = True
-        # bottom
+        # right
         for x in range(room[0][0], room[0][0]+room[1]):
             y = room[0][0]+room[1]+1
             if 0 <= x and x <= width-1 and 0 <= y and y <= height-1 and y+1 <= width-1 and map[x][y+1] == 2:
