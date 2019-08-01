@@ -1,4 +1,5 @@
 import random
+import sys
 
 
 def room(map, times, max, min):
@@ -132,4 +133,6 @@ def maze(height, width, rooms_count, room_max_length, room_min_length, door_rati
     print()
 
 
-maze(51, 51, 20, 7, 4, 0)
+args = sys.argv[1:]
+
+maze(int(args[0]), int(args[1]), int(args[2]), int(args[3]), int(args[4]), int(args[5]))
