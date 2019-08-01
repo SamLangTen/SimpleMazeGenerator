@@ -126,7 +126,7 @@ def maze(height, width, rooms_count, room_max_length, room_min_length, door_rati
     for x in map:
         for y in x:
             if y == 0 or y == 2 or y == 4:
-                print(' ', end='')
+                print('  ', end='')
             else:
                 print('▉', end='')
         print()
@@ -134,5 +134,4 @@ def maze(height, width, rooms_count, room_max_length, room_min_length, door_rati
 
 
 args = sys.argv[1:]
-
 maze(int(args[0]), int(args[1]), int(args[2]), int(args[3]), int(args[4]), int(args[5]))
