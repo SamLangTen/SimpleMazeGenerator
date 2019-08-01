@@ -24,10 +24,47 @@ def room(map, times, max, min):
             for j in range(r[0][1], r[0][1]+r[1]):
                 if 0 < i and i < width-1 and 0 < j and j < height-1:
                     map[i][j] = 4
-    return map
+    return rooms
 
 
-def maze(height, width):
+def open_door(map, rooms, door_ratio):
+    # map
+    width = len(map)
+    height = len(map[0])
+    for room in rooms:
+        # check each walls
+        isHasOneDoor = False
+        # left
+        for y in range(room[0][1], room[0][1]+room[1]):
+            x = room[0][0]-1
+            if 0 <= y and y <= height-1 and 0 <= x and x <= width-1 and x-1 >= 0 and map[x-1][y] == 2:
+                if random.random() > (1-door_ratio) or not isHasOneDoor:
+                    map[x][y] = 2
+                    isHasOneDoor = True
+        # right
+        for y in range(room[0][1], room[0][1]+room[1]):
+            x = room[0][0]+room[1]+1
+            if 0 <= y and y <= height-1 and 0 <= x and x <= width-1 and x+1 <= width-1 and map[x+1][y] == 2:
+                if random.random() > (1-door_ratio) or not isHasOneDoor:
+                    map[x][y] = 2
+                    isHasOneDoor = True
+        # top
+        for x in range(room[0][0], room[0][0]+room[1]):
+            y = room[0][0]-1
+            if 0 <= x and x <= width-1 and 0 <= y and y <= height-1 and y-1 >= 0 and map[x][y-1] == 2:
+                if random.random() > (1-door_ratio) or not isHasOneDoor:
+                    map[x][y] = 2
+                    isHasOneDoor = True
+        # bottom
+        for x in range(room[0][0], room[0][0]+room[1]):
+            y = room[0][0]+room[1]+1
+            if 0 <= x and x <= width-1 and 0 <= y and y <= height-1 and y+1 <= width-1 and map[x][y+1] == 2:
+                if random.random() > (1-door_ratio) or not isHasOneDoor:
+                    map[x][y] = 2
+                    isHasOneDoor = True
+
+
+def maze(height, width, rooms_count, room_max_length, room_min_length, door_ratio):
     # 0 unvisited road
     # 1 unvisited wall
     # 2 visited road
@@ -40,7 +77,7 @@ def maze(height, width):
             if j % 2 != 0 and i % 2 != 0:
                 map[i][j] = 0
     # shuffle some rooms
-    map = room(map, 20, 7, 3)
+    rooms = room(map, rooms_count, room_max_length, room_min_length)
     # shuffle a start point
     sp = (random.randint(0, width-1), random.randint(0, height-1))
     while map[sp[0]][sp[1]] != 0:
@@ -82,7 +119,8 @@ def maze(height, width):
                     (check_point[0], check_point[1]+1, check_point))
         # remove from list
         point_list.remove(point)
-
+    # open door in room walls
+    open_door(map, rooms, door_ratio)
     # output
     for x in map:
         for y in x:
@@ -94,4 +132,4 @@ def maze(height, width):
     print()
 
 
-maze(51, 51)
+maze(51, 51, 20, 7, 4, 0)
